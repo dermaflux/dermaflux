@@ -1,16 +1,19 @@
-## Hi there 👋
+# DermaFlux Installation Guide
 
-<!--
-**dermaflux/dermaflux** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## Prerequisites
 
-Here are some ideas to get you started:
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+Create a python 3.10 enviroment 
+
+1. Clone the repository and change directory
+```bash
+git clone https://github.com/dermaflux/dermaflux.git
+cd dermaflux
+```
+
+2. Create a python 3.10 enviroment and install dependencies
+
+```bash 
+conda create -n dermaflux python=3.10
+pip install -r requirements.txt
+```
