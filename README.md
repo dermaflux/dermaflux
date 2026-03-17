@@ -13,61 +13,112 @@
 ```bibtex
 ```
 
-## TLDR:
-We introduce **DermaFlux**:  <br>
-&nbsp;&nbsp;&nbsp; 🔥 **DermaFlux** generates realistic skin lesion images from text using rectified flows, enabling efficient and semantically aligned medical image synthesis.  <br>
-&nbsp;&nbsp;&nbsp; 🔥 Trained on a **~500k curated dermatology image–text** dataset with captions describing clinically relevant attributes such as *asymmetry, border irregularity,* and *color variation.*  <br>
-&nbsp;&nbsp;&nbsp; 🔥 DermaFlux synthetic data improves classification performance by up to +6% when augmenting small real datasets and +9% compared to diffusion-based synthetic images. <br>
+# Overview
 
-## Quick Start
+**DermaFlux** is a generative framework for synthesizing dermatology images from text descriptions using **rectified flows**.  
+It enables **semantically aligned medical image generation** and improves downstream classification performance.
 
-### Prerequisites
+### Key Highlights
+
+🔥 **Text-to-image lesion generation**  
+DermaFlux generates realistic skin lesion images from textual descriptions.
+
+🔥 **Large-scale dermatology dataset**  
+Trained on **~500k curated dermatology image–text pairs**, with captions describing clinically relevant attributes such as:
+- asymmetry  
+- border irregularity  
+- color variation  
+
+🔥 **Improved classification performance**
+
+Using synthetic DermaFlux data:
+
+- **+6%** improvement when augmenting small real datasets  
+- **+9%** improvement compared to diffusion-based synthetic images
 
 
-Create a python 3.10 enviroment 
+# Quick Start
 
-1. Clone the repository and change directory
+
+##  1. Clone the repository and change directory
 ```bash
 git clone https://github.com/dermaflux/dermaflux.git
 cd dermaflux
 ```
 
-2. Create a python 3.10 enviroment and install dependencies
+## 2. Create a Python environment and install dependencies:
 
 ```bash 
 conda create -n dermaflux python=3.10
+conda activate dermaflux
+
 pip install -r requirements.txt
 ```
 
-### Downloading Required Models
+## 3. Download Required Models
 
-1. Create checkpoint subfolders
+DermaFlux requires the FLUX.1 base checkpoints, text encoders, and DermaFlux LoRA weights.
+
+### 3.1 Create checkpoint subfolders
 ```bash
 cd checkpoints
 mkdir flux
 mkdir flux_text_encoders
 ```
-
-2. To run DermaFlux, you need to download the original Flux 1. checkpoints:
-   - **DiT, AE**: Download from the [black-forest-labs/FLUX.1](https://huggingface.co/black-forest-labs/FLUX.1-dev) dev repository and place them under the `checkpoints/flux/` directory.
-     - Use `flux1-dev.safetensors` and `ae.safetensors`
-     - Note: Weights in the subfolder are in Diffusers format and cannot be used
-   - **Text Encoder 1 (T5-XXL)**, **Text Encoder 2 (CLIP-L)**: Download from the [ ComfyUI FLUX Text Encoders repository](https://huggingface.co/comfyanonymous/flux_text_encoders) and place them under the `checkpoints/flux_text_encoders/` directory.
-     - Use `t5xxl_fp16.safetensors` for T5-XXL and `clip_l.safetensors` for CLIP-L.
-
-   - **Lora weights**: Download them from DermaFLux's [huggingface repository]() and place them under the `checkpoints` directory.
-
-### Run the gradio application
-Run the sampling code using the following command:
-
+Your directory should look like:
 ```bash
+checkpoints/
+ ├── flux/
+ ├── flux_text_encoders/
+```
+### 3.2 Download FLUX.1-dev Models
+
+Download from the official  [FLUX.1](https://huggingface.co/black-forest-labs/FLUX.1-dev) repository and place the following files inside `checkpoints/flux/`
+
+Required files:
+
+-   `flux1-dev.safetensors` (DiT model)
+-   `ae.safetensors` (Autoencoder)
+
+⚠️ **Note:** The weights in the subfolder are in Diffusers format and **cannot be used**.
+   
+### 3.3  Download Text Encoders
+Download from the [ ComfyUI FLUX Text Encoders](https://huggingface.co/comfyanonymous/flux_text_encoders) repository and place them under the `checkpoints/flux_text_encoders/` directory.
+
+Required files:
+
+ - `t5xxl_fp16.safetensors`  (T5-XXL)
+ - `clip_l.safetensors` (CLIP-L)
+
+### 3.4 Download DermaFlux LoRA Weights
+  
+Download the LoRA weights from the [**DermaFlux HuggingFace**]() repository
+and place them inside `checkpoints`.
+
+# Run the Demo
+
+Launch the **Gradio interface**:
+
+``` bash
 python gradio_app.py
 ```
 
+This will start a local interface for **text-to-skin-lesion
+generation**.
 
-## Generated dataset
-We provide a generated dataset, generated using DermaFlux in this [link]() containing 40k generated benign skin lesion images and 40k malignant skin lesion.
+---
+
+# Generated Dataset
+
+We release a synthetic [dataset]() generated with **DermaFlux** consisting of:
+
+-   **40k benign skin lesion images**
+-   **40k malignant skin lesion images**
+
+
+
+
 
 ## Acknowledgements
 
-Thanks for the contributions of the following repo: [kohya-ss/sd-scripts](https://github.com/kohya-ss/sd-scripts/tree/sd3)
+This project builds upon the following repository: [kohya-ss/sd-scripts](https://github.com/kohya-ss/sd-scripts/tree/sd3)
