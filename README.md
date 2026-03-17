@@ -92,7 +92,7 @@ Required files:
 
 ### 3.4 Download DermaFlux LoRA Weights
   
-Download the LoRA weights from the [**DermaFlux HuggingFace**]() repository
+Download the LoRA weights from the [**DermaFlux HuggingFace**](https://huggingface.co/DermaFlux/dermaflux/tree/main) repository
 and place them inside `checkpoints`.
 
 # Run the Demo
