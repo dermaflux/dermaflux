@@ -3,7 +3,7 @@
 <h1>DermaFlux: Synthetic Skin Lesion Generation with Rectified Flows for Enhanced Image Classification</h1>
 
 <a href="https://arxiv.org/pdf/2603.16392"><img src="https://img.shields.io/badge/Paper-SpMR" alt="Paper PDF"></a>
-<a href="https://arxiv.org/abs/2603.16392"><img src="https://img.shields.io/badge/arXiv-2503.11651-b31b1b" alt="arXiv"></a>
+<a href="https://arxiv.org/abs/2603.16392"><img src="https://img.shields.io/badge/arXiv-2603.16392-b31b1b" alt="arXiv"></a>
 <a href="https://dermaflux.github.io/"><img src="https://img.shields.io/badge/Project_Page-green" alt="Project Page"></a>
 
 
