@@ -117,7 +117,7 @@ generation**.
 
 ---
 
-# Generated Dataset
+# Synthetic Dermatology Dataset using DermaFlux 
 
 We release a synthetic [dataset](https://huggingface.co/datasets/StathisGln/DermaFlux_synthetic_dataset) generated with **DermaFlux** consisting of:
 
