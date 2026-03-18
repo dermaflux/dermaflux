@@ -101,7 +101,7 @@ Required files:
 
 ### 3.4 Download DermaFlux LoRA Weights
   
-Download the LoRA weights from the [**DermaFlux HuggingFace**](https://huggingface.co/DermaFlux/dermaflux/tree/main) repository
+Download the LoRA weights from the [**DermaFlux HuggingFace**](https://huggingface.co/StathisGln/DermaFlux) repository
 and place them inside `checkpoints`.
 
 # Run the Demo
@@ -119,7 +119,7 @@ generation**.
 
 # Generated Dataset
 
-We release a synthetic [dataset](https://huggingface.co/datasets/DermaFlux/DermaFlux_synthetic_dataset) generated with **DermaFlux** consisting of:
+We release a synthetic [dataset](https://huggingface.co/datasets/StathisGln/DermaFlux_synthetic_dataset) generated with **DermaFlux** consisting of:
 
 -   **20k benign skin lesion images**
 -   **20k malignant skin lesion images**
