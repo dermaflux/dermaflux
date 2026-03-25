@@ -314,12 +314,12 @@ class AppWrapper:
         self.t5xxl = t5xxl
         self.vae = vae
         
-    def generate_image_func(self, prompt, seed=42, image_size=512,
+    def generate_image_func(self, prompt, seed=42, image_size=512, offload=True, 
                         steps=20, guidance=3.5, cfg_scale=1.0, 
-                        offload=True, negative_prompt=None, ):
+                        negative_prompt=None, ):
                         
         height = width = image_size
-
+            
         x = generate_image(
                 self.model,
                 self.clip_l,
@@ -333,7 +333,8 @@ class AppWrapper:
                 guidance,
                 negative_prompt,
                 cfg_scale,
-                dtype=dtype
+                offload=offload,
+                dtype=dtype,
             )
 
             
@@ -416,9 +417,6 @@ for weights_file in [lora_weight]:
 
     lora_models.append(lora_model)
 
-
-vae = vae.to('cpu')
-
 app_wrapper = AppWrapper(model, clip_l, t5xxl, vae)
 
 torch.cuda.empty_cache()
@@ -449,15 +447,17 @@ example_prompts = [
             "not appear to have any notable variations in color or texture. Overall, the mole appears to be a benign, symmetrical, and uniformly colored lesion."
     ],
 ]
+ 
+# ---------------------------------------------------------------------------
+# Gradio UI
+# ---------------------------------------------------------------------------
     
-_TITLE = r"""
-<h1>DermaFlux: Synthetic Skin Lesion Generation with Rectified Flows for Enhanced Image Classification</h1>
-"""
-_DESCRIPTIONS = r"""
-<b>Official 🤗 Gradio demo</b> for <a href='https://dermaflux.github.io/' target='_blank'><b>DermaFlux: Synthetic Skin Lesion Generation with Rectified Flows for Enhanced Image Classification</b></a>.<br>
-
-"""
-
+_TITLE = "DermaFlux: Synthetic Skin Lesion Generation with Rectified Flows"
+_DESCRIPTION = (
+    "**Official 🤗 Gradio demo** for "
+    "[DermaFlux: Synthetic Skin Lesion Generation with Rectified Flows for Enhanced Image Classification]"
+    "(https://dermaflux.github.io/)."
+)
 _CITATION = r"""
 ---
 📝 **Citation**
@@ -480,54 +480,61 @@ If you find DermaFlux helpful for your research, please consider citing our pape
 
 
 css = '''
-.gradio-container {width: 85% !important}
-#left-col {flex: 0 0 65% !important;}
-#right-col {flex: 0 0 35% !important;}
+.gradio-container { max-width: 1100px !important; margin: auto; }
+#generate-btn { background: #2d6a4f; color: white; font-weight: 600; }
+#generate-btn:hover { background: #1b4332; }
+#gallery { min-height: 300px; }
+footer { display: none !important; }
 '''    
 
 
 # === Gradio UI ===
-with gr.Blocks() as demo:
+with gr.Blocks(css=css, title="DermaFlux") as demo:
 
-    gr.Markdown('# ' + _TITLE)
-    gr.Markdown(_DESCRIPTIONS)
+    gr.Markdown(f"# {_TITLE}")
+    gr.Markdown(_DESCRIPTION)
 
     with gr.Row() as row:
-        with gr.Column(elem_id="left-col") as col:
+        with gr.Column(scale=3) as col:
             prompt = gr.Textbox(
-                label="Description",
-                info="Description",
-                lines=3,
+                label="Lesion description",
+                info="Describe the skin lesion.",
+                lines=5,
                 value=default_caption,
                 interactive=True,
             )
-            generate_mask = gr.Button("Generate mask")
-
+            generate_btn = gr.Button("Generate image", elem_id="generate-btn", variant="primary")
             with gr.Accordion("Sampling options", open=False):
                 with gr.Row():
                     with gr.Column(scale=4):
                         seed = gr.Slider(
                                 label="Seed",
                                 minimum=1,
-                                maximum=10000,
+                                maximum=2**32 - 1,
                                 step=1,
                                 value=42,
                             )
-                    with gr.Column(scale=1):
+                    with gr.Column(scale=2):
                         random_seed = gr.Button("🎲 Random seed")
-
                         random_seed.click(
-                            lambda: random.randint(1,10000),
+                            lambda: random.randint(1,2**32 - 1),
                             outputs=seed
                         )                    
 
                 image_size = gr.Radio([128, 256, 512], value=512, label='Image size')
 
-        with gr.Column(elem_id="right-col") as col:
-            gallery = gr.Gallery(label="Generated Image", allow_preview=True, interactive=False)
+        with gr.Column(scale=2) as col:
+            gallery = gr.Gallery(
+                label="Generated image",
+                elem_id="gallery",
+                allow_preview=True,
+                interactive=False,
+                columns=1,
+                object_fit="contain",
+                )
 
     inputs = [prompt, seed, image_size]
-    generate_mask.click(fn=app_wrapper.generate_image_func, inputs=inputs, outputs=[gallery])
+    generate_btn.click(fn=app_wrapper.generate_image_func, inputs=inputs, outputs=[gallery])
     
     with gr.Row() as row:
         examples = gr.Examples(
