@@ -453,7 +453,7 @@ def convert_diffusers_sd_to_bfl(
                 flux_sd[bfl_key] = []
             flux_sd[bfl_key].append((index, tensor))
         else:
-            logger.error(f"Error: Key not found in diffusers_to_bfl_map: {diffusers_key}")
+            warnings.warn(f"Error: Key not found in diffusers_to_bfl_map: {diffusers_key}")
             raise KeyError(f"Key not found in diffusers_to_bfl_map: {diffusers_key}")
 
     # concat tensors if multiple tensors are mapped to a single key, sort by index

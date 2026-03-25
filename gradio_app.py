@@ -370,7 +370,7 @@ clip_l_path = 'checkpoints/flux_text_encoders/clip_l.safetensors'
 t5xxl_path = 'checkpoints/flux_text_encoders/t5xxl_fp16.safetensors'
 ae_path = 'checkpoints/flux/ae.safetensors'
 
-lora_weight = "checkpoints/flux_lora_64_64.safetensors"
+lora_weight = 'checkpoints/flux_lora_64_64.safetensors'
 
 # load clip_l
 clip_l = flux_utils.load_clip_l(clip_l_path, clip_l_dtype, device)
@@ -393,9 +393,6 @@ encoding_strategy = strategy_flux.FluxTextEncodingStrategy()
 vae = flux_utils.load_ae(ae_path, ae_dtype, device)
 vae.eval()
 
-
-height = 512
-width = 512
 
 # LoRA
 lora_models = []
@@ -453,14 +450,50 @@ example_prompts = [
     ],
 ]
     
+_TITLE = r"""
+<h1>DermaFlux: Synthetic Skin Lesion Generation with Rectified Flows for Enhanced Image Classification</h1>
+"""
+_DESCRIPTIONS = r"""
+<b>Official 🤗 Gradio demo</b> for <a href='https://dermaflux.github.io/' target='_blank'><b>DermaFlux: Synthetic Skin Lesion Generation with Rectified Flows for Enhanced Image Classification</b></a>.<br>
+
+"""
+
+_CITATION = r"""
+---
+📝 **Citation**
+<br>
+If you find DermaFlux helpful for your research, please consider citing our paper:
+```bibtex
+
+    @misc{galanakis2026dermafluxsyntheticskinlesion,
+        title={DermaFlux: Synthetic Skin Lesion Generation with Rectified Flows for Enhanced Image Classification}, 
+        author={Stathis Galanakis and Alexandros Koliousis and Stefanos Zafeiriou},
+        year={2026},
+        eprint={2603.16392},
+        archivePrefix={arXiv},
+        primaryClass={cs.CV},
+        url={https://arxiv.org/abs/2603.16392}, 
+    }
+        
+```
+"""
+
+
+css = '''
+.gradio-container {width: 85% !important}
+#left-col {flex: 0 0 65% !important;}
+#right-col {flex: 0 0 35% !important;}
+'''    
 
 
 # === Gradio UI ===
 with gr.Blocks() as demo:
-    gr.Markdown("## DermaFlux sampling")
+
+    gr.Markdown('# ' + _TITLE)
+    gr.Markdown(_DESCRIPTIONS)
 
     with gr.Row() as row:
-        with gr.Column() as col:
+        with gr.Column(elem_id="left-col") as col:
             prompt = gr.Textbox(
                 label="Description",
                 info="Description",
@@ -471,16 +504,26 @@ with gr.Blocks() as demo:
             generate_mask = gr.Button("Generate mask")
 
             with gr.Accordion("Sampling options", open=False):
-                seed = gr.Slider(
-                        label="Seed",
-                        minimum=1,
-                        maximum=10000,
-                        step=1,
-                        value=42,
-                    )
-                image_size = gr.Radio([128, 256, 512], value=128)
+                with gr.Row():
+                    with gr.Column(scale=4):
+                        seed = gr.Slider(
+                                label="Seed",
+                                minimum=1,
+                                maximum=10000,
+                                step=1,
+                                value=42,
+                            )
+                    with gr.Column(scale=1):
+                        random_seed = gr.Button("🎲 Random seed")
 
-        with gr.Column() as col:
+                        random_seed.click(
+                            lambda: random.randint(1,10000),
+                            outputs=seed
+                        )                    
+
+                image_size = gr.Radio([128, 256, 512], value=512, label='Image size')
+
+        with gr.Column(elem_id="right-col") as col:
             gallery = gr.Gallery(label="Generated Image", allow_preview=True, interactive=False)
 
     inputs = [prompt, seed, image_size]
@@ -491,6 +534,8 @@ with gr.Blocks() as demo:
             examples=example_prompts,
             inputs=[prompt],
         )
+    
+    gr.Markdown(_CITATION)
     
 if __name__ == '__main__':
 

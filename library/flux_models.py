@@ -15,6 +15,7 @@ from einops import rearrange
 from torch import Tensor, nn
 from torch.utils.checkpoint import checkpoint
 
+
 from library import custom_offloading_utils
 
 # USE_REENTRANT = True
@@ -562,17 +563,6 @@ class MLPEmbedder(nn.Module):
             return checkpoint(self._forward, *args, use_reentrant=False, **kwargs)
         else:
             return self._forward(*args, **kwargs)
-
-    # def forward(self, x):
-    #     if self.training and self.gradient_checkpointing:
-    #         def create_custom_forward(func):
-    #             def custom_forward(*inputs):
-    #                 return func(*inputs)
-    #             return custom_forward
-    #         return torch.utils.checkpoint.checkpoint(create_custom_forward(self._forward), x, use_reentrant=USE_REENTRANT)
-    #     else:
-    #         return self._forward(x)
-
 
 class RMSNorm(torch.nn.Module):
     def __init__(self, dim: int):

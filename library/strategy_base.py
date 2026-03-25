@@ -55,7 +55,7 @@ class TokenizeStrategy:
             tokenizer = model_class.from_pretrained(model_id, subfolder=subfolder)
 
         if tokenizer_cache_dir and not os.path.exists(local_tokenizer_path):
-            logger.info(f"save Tokenizer to cache: {local_tokenizer_path}")
+            print(f"save Tokenizer to cache: {local_tokenizer_path}")
             tokenizer.save_pretrained(local_tokenizer_path)
 
         return tokenizer
