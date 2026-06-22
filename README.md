@@ -115,6 +115,56 @@ python gradio_app.py
 This will start a local interface for **text-to-skin-lesion
 generation**.
 
+
+---
+
+
+# Training Dataset
+
+
+## Download Captions Dataset
+
+The repository includes a captions archive tracked with **Git LFS**:
+
+```bash
+git lfs install
+git lfs pull
+```
+
+After pulling the LFS files, the repository structure should contain:
+
+```text
+data/
+└── captions.zip
+```
+
+The `captions.zip` archive contains the **generated text captions and metadata files** used to train DermaFlux. It does **not** include the underlying dermatology images, which remain subject to the licensing and terms of their respective datasets.
+
+
+## Download Source Datasets and Corresponding Caption Files
+
+To reproduce the DermaFlux training data, please download the original image datasets from their official sources and pair them with the corresponding `.json` caption files provided in `captions.zip`.
+
+
+| Dataset     |    Download Link    |  File Name   |
+|-------------|---------------------|--------------|
+| MedNode | [Download](https://www.cs.rug.nl/~imaging/databases/melanoma_naevi/complete_mednode_dataset.zip) | `mednode.json` |
+| HIBA | [Download](https://api.isic-archive.com/doi/hospital-italiano-de-buenos-aires-skin-lesions-images-2019-2022/) | `hiba.json` |
+| Derm12345 | [Download](https://github.com/abdurrahimyilmaz/derm12345) | `derm12345.json`|
+| ISIC 2019 | [Download](https://challenge.isic-archive.com/data/#2019) | `isic2019.json` | 
+| ISIC 2020 | [Download](https://challenge.isic-archive.com/data/#2020) | `isic2020.json` |
+| Milk10k | [Download](https://challenge.isic-archive.com/data/#milk10k) | `milk10k` | 
+| PAD20 | [Download](https://data.mendeley.com/datasets/zr7vgbcyr2/1) | `pad20.json` |
+| Kaggle 1 | [Download](https://www.kaggle.com/datasets/hasnainjaved/melanoma-skin-cancer-dataset-of-10000-images) | `kaggle1.json` |
+| Kaggle 2 | [Download](https://www.kaggle.com/datasets/bhaveshmittal/melanoma-cancer-dataset/data) | `kaggle2.json` |
+| DDI | [Download](https://ddi-dataset.github.io/index.html#dataset) | `ddi.json` |
+| ISIC 2024 | [Download](https://challenge.isic-archive.com/data/#2024) | `isic2024.json` |
+
+
+
+**Note:** We distribute only the generated captions and associated metadata. Users are responsible for obtaining the original datasets and complying with their respective licenses and terms of use.
+
+
 ---
 
 # Synthetic Dermatology Dataset using DermaFlux 
@@ -123,7 +173,6 @@ We release a synthetic [dataset](https://huggingface.co/datasets/StathisGln/Derm
 
 -   **20k benign skin lesion images**
 -   **20k malignant skin lesion images**
-
 
 
 
