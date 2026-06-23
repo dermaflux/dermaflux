@@ -135,7 +135,7 @@ After pulling the LFS files, the repository structure should contain:
 
 ```text
 data/
-└── captions.zip
+└── curated_dataset_captions.zip
 ```
 
 The `curated_dataset_captions.zip` archive contains the **generated text captions and metadata files** used to train DermaFlux. It does **not** include the underlying dermatology images, which remain subject to the licensing and terms of their respective datasets.
