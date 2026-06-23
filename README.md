@@ -138,12 +138,12 @@ data/
 └── captions.zip
 ```
 
-The `captions.zip` archive contains the **generated text captions and metadata files** used to train DermaFlux. It does **not** include the underlying dermatology images, which remain subject to the licensing and terms of their respective datasets.
+The `curated_dataset_captions.zip` archive contains the **generated text captions and metadata files** used to train DermaFlux. It does **not** include the underlying dermatology images, which remain subject to the licensing and terms of their respective datasets.
 
 
 ## Download Source Datasets and Corresponding Caption Files
 
-To reproduce the DermaFlux training data, please download the original image datasets from their official sources and pair them with the corresponding `.json` caption files provided in `captions.zip`.
+To reproduce the DermaFlux training data, please download the original image datasets from their official sources and pair them with the corresponding `.json` caption files provided in `data/curated_dataset_captions.zip`.
 
 
 | Dataset     |    Download Link    |  File Name   |
